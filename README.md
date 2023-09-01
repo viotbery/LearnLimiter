@@ -1,1 +1,2 @@
-# 自律v2
+# Introduction
+LearnLimiter can prevent other software from showing when you use some learning or work software, so that you can keep focused. If you minimize the study or work software, or if these software are covered by other applications, LearnLimiter will force the ejection of these study or work software that you need to stay focused on.
