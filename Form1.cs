@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace 自律v2
@@ -47,22 +48,13 @@ namespace 自律v2
 
 
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-        static UInt32 SW_HIDE = 0;
-        static UInt32 SW_SHOWNORMAL = 1;
-        static UInt32 SW_NORMAL = 1;
         static UInt32 SW_SHOWMINIMIZED = 2;
-        const UInt32 SW_SHOWMAXIMIZED = 3;
-        static UInt32 SW_SHOWNOACTIVATE = 4;
-        static UInt32 SW_SHOW = 5;
-        static UInt32 SW_SHOWMINNOACTIVE = 7;
-        static UInt32 SW_SHOWNA = 8;
-        static UInt32 SW_RESTORE = 9;
         static bool _IsExit = false;
-        const int SW_MINIMIZE = 6;
         const int SW_MAXIMIZE = 3;
         public const int WM_SYSCOMMAND = 0x112;
         public const int SC_MINIMIZE = 0xF020;
         public const int SC_MAXIMIZE = 0xF030;
+        public string appPath = "";
         public static bool GetMinimized(IntPtr handle)
         {
             WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
@@ -85,6 +77,10 @@ namespace 自律v2
                 if (processes.Length == 0)
                 {
                     this.Invoke(new Action(() => { addLog("Target process not found. Waiting..."); }));
+                    // 运行appPath中的应用程序
+                    Process p = new Process();
+                    p.StartInfo.FileName = appPath;
+                    p.Start();
                     continue;
                 }
                 else
@@ -132,10 +128,6 @@ namespace 自律v2
         {   // 追加信息
             textBox1.AppendText(Environment.NewLine + message);
         }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             _IsExit = false;
@@ -168,14 +160,28 @@ namespace 自律v2
             // 返回一个随机字符串
             return string.Concat(Enumerable.Range(0, digits).Select(_ => new Random().Next(16).ToString("X")));
         }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void button3_Click(object sender, EventArgs e)
         {
+            // 创建打开文件对话框
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-        }
+            // 设置对话框的属性
+            openFileDialog1.InitialDirectory = "C:\\";  // 设置默认文件夹
+            openFileDialog1.Filter = "可执行程序|*.exe";  // 设置文件类型过滤器
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+            // 显示打开文件对话框
+            DialogResult result = openFileDialog1.ShowDialog();
 
+            // 处理用户的文件选择
+            if (result == DialogResult.OK)
+            {
+                // 获取用户所选文件的路径
+                string selectedFilePath = openFileDialog1.FileName;
+                appPath = selectedFilePath;
+                // 在 label1 中显示所选文件的路径
+                addLog(selectedFilePath);
+            }
         }
     }
 }

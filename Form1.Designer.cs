@@ -31,10 +31,11 @@
             textBox1 = new TextBox();
             button1 = new Button();
             button2 = new Button();
-            menuStrip1 = new MenuStrip();
             comboBox1 = new ComboBox();
             pwText = new TextBox();
             answerText = new TextBox();
+            openFileDialog1 = new OpenFileDialog();
+            button3 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -42,16 +43,15 @@
             textBox1.BackColor = SystemColors.InfoText;
             textBox1.Cursor = Cursors.Hand;
             textBox1.ForeColor = Color.Lime;
-            textBox1.Location = new Point(65, 44);
+            textBox1.Location = new Point(70, 12);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(672, 250);
+            textBox1.Size = new Size(667, 250);
             textBox1.TabIndex = 0;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
-            button1.Location = new Point(70, 382);
+            button1.Location = new Point(70, 389);
             button1.Name = "button1";
             button1.Size = new Size(207, 46);
             button1.TabIndex = 1;
@@ -62,7 +62,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(637, 382);
+            button2.Location = new Point(637, 389);
             button2.Name = "button2";
             button2.Size = new Size(100, 46);
             button2.TabIndex = 2;
@@ -70,28 +70,17 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // menuStrip1
-            // 
-            menuStrip1.ImageScalingSize = new Size(32, 32);
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
-            menuStrip1.TabIndex = 3;
-            menuStrip1.Text = "menuStrip1";
-            // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "PotPlayerMini64", "sm18" });
-            comboBox1.Location = new Point(70, 337);
+            comboBox1.Location = new Point(70, 330);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(207, 39);
-            comboBox1.TabIndex = 4;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // pwText
             // 
-            pwText.Location = new Point(283, 338);
+            pwText.Location = new Point(283, 331);
             pwText.Name = "pwText";
             pwText.ReadOnly = true;
             pwText.Size = new Size(454, 38);
@@ -99,27 +88,39 @@
             // 
             // answerText
             // 
-            answerText.Location = new Point(283, 387);
+            answerText.Location = new Point(283, 394);
             answerText.Name = "answerText";
             answerText.Size = new Size(348, 38);
             answerText.TabIndex = 6;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(70, 268);
+            button3.Name = "button3";
+            button3.Size = new Size(667, 46);
+            button3.TabIndex = 7;
+            button3.Text = "加载应用";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(803, 461);
+            Controls.Add(button3);
             Controls.Add(answerText);
             Controls.Add(pwText);
             Controls.Add(comboBox1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "LearnLimiter";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -129,9 +130,10 @@
         private TextBox textBox1;
         private Button button1;
         private Button button2;
-        private MenuStrip menuStrip1;
         private ComboBox comboBox1;
         private TextBox pwText;
         private TextBox answerText;
+        private OpenFileDialog openFileDialog1;
+        private Button button3;
     }
 }
