@@ -36,6 +36,7 @@
             answerText = new TextBox();
             openFileDialog1 = new OpenFileDialog();
             button3 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -46,6 +47,7 @@
             textBox1.Location = new Point(70, 12);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
+            textBox1.ScrollBars = ScrollBars.Vertical;
             textBox1.Size = new Size(667, 250);
             textBox1.TabIndex = 0;
             // 
@@ -77,6 +79,7 @@
             comboBox1.Location = new Point(70, 330);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(207, 39);
+            comboBox1.TabIndex = 8;
             // 
             // pwText
             // 
@@ -101,17 +104,28 @@
             // 
             button3.Location = new Point(70, 268);
             button3.Name = "button3";
-            button3.Size = new Size(667, 46);
+            button3.Size = new Size(493, 46);
             button3.TabIndex = 7;
             button3.Text = "加载应用";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(569, 268);
+            button4.Name = "button4";
+            button4.Size = new Size(168, 46);
+            button4.TabIndex = 9;
+            button4.Text = "显示所有进程";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += showAllProcesses;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(803, 461);
+            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(answerText);
             Controls.Add(pwText);
@@ -135,5 +149,6 @@
         private TextBox answerText;
         private OpenFileDialog openFileDialog1;
         private Button button3;
+        private Button button4;
     }
 }

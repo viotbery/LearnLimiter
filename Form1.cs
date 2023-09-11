@@ -44,6 +44,9 @@ namespace 自律v2
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
         [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
 
 
@@ -90,7 +93,23 @@ namespace 自律v2
                 Process targetProcess = processes[0];
                 Process thisProcess = thisProcesses[0];
                 // 判断应用是否最小化
+                string foregroundProcessName = "";
+                if (GetForegroundWindow() != IntPtr.Zero)
+                {
+                    uint processId;
+                    GetWindowThreadProcessId(GetForegroundWindow(), out processId);
 
+                    try
+                    {
+                        Process process = Process.GetProcessById((int)processId);
+                        foregroundProcessName = process.ProcessName;
+                    }
+                    catch (ArgumentException)
+                    {
+                        // 处理无效的进程ID异常
+                        foregroundProcessName = "Unknown";
+                    }
+                }
                 if (GetMinimized(targetProcess.MainWindowHandle))
                 {
                     // 打印信息到textBox1控件
@@ -105,17 +124,19 @@ namespace 自律v2
                     // 打印信息到textBox1控件
                     this.Invoke(new Action(() => { addLog("Target process is NOT minimized. Waiting.."); }));
                     if (targetProcess.MainWindowHandle != IntPtr.Zero
-                        && targetProcess.MainWindowHandle == GetForegroundWindow()
+                        && targetProcess.ProcessName == foregroundProcessName
+                        /*|| foregroundProcessName == thisProcess.ProcessName*/
                     )
                     {
                         // 打印信息到textBox1控件
                         this.Invoke(new Action(() => { addLog("Target process is in foreground. Waiting..."); }));
                     }
-                    else if (thisProcess.MainWindowHandle != GetForegroundWindow())
+                    else if (targetProcess.ProcessName != foregroundProcessName)
                     {
                         // 打印信息到textBox1控件
                         this.Invoke(new Action(() => { addLog("Target process is NOT in foreground. Maximizing..."); }));
-
+                        this.Invoke(new Action(() => { addLog("The expected active window is"+ thisProcess.MainWindowHandle); }));
+                        this.Invoke(new Action(() => { addLog("But active window is showing now that named " + GetForegroundWindow()); }));
                         // 最大化该进程
                         ShowWindow(targetProcess.MainWindowHandle, SW_MAXIMIZE);
                         SetForegroundWindow(targetProcess.MainWindowHandle.ToInt32());
@@ -181,6 +202,14 @@ namespace 自律v2
                 appPath = selectedFilePath;
                 // 在 label1 中显示所选文件的路径
                 addLog(selectedFilePath);
+            }
+        }
+        private void showAllProcesses(object sender, EventArgs e)
+        {
+            Process[] processes = Process.GetProcesses();
+            foreach (Process p in processes)
+            {
+                addLog(p.ProcessName);
             }
         }
     }
